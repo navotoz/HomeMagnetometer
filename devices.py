@@ -3,7 +3,7 @@ import math
 import adafruit_lis3mdl
 import adafruit_shtc3
 import board
-
+from typing import List
 from constants import MuTESLA2MilliGAUSS
 
 
@@ -17,12 +17,12 @@ class Magnetometer:
         self._sensor = sensor
         self._offsets = {'x': 0, 'y': 0, 'z': 235}
 
-    def __call__(self, *args, **kwargs) -> list:
+    def __call__(self, *args, **kwargs) -> List[float, float, float]:
         return [MuTESLA2MilliGAUSS(v) + o for v, o in zip(self._sensor.magnetic, self._offsets.values())]
 
     @property
     def magnitude(self) -> float:
-        return math.sqrt(sum([p ** 2 for p in self()]))
+        return math.sqrt(sum([p ** 2 for p in self()])) * 1e-3
 
 
 class Temperature:
