@@ -1,4 +1,8 @@
-PORT = 37020
+
+
+from dataclasses import dataclass
+
+
 DELAY_SECONDS = 0.5
 HOURS_OF_LOG = 48
 
@@ -7,13 +11,20 @@ MINUTES_IN_HOUR = 60
 
 N_SAMPLES = (SECONDS_IN_MINUTE // DELAY_SECONDS) * HOURS_OF_LOG * MINUTES_IN_HOUR
 
-MuTESLA2MilliGAUSS = lambda x: 10 * x
+
+def MuTESLA2MilliGAUSS(x): return 10 * x
 
 
-class EnumData(Enum):
-    TIME: auto()
-    COUNTER: auto()
-    TEMPERATURE: auto()
-    MAG_X: auto()
-    MAG_Y: auto()
-    MAG_Z: auto()
+@dataclass
+class Mag:
+    x: float
+    y: float
+    z: float
+    magnitude: float
+
+
+@dataclass
+class Measurement:
+    time: int
+    temperature: float
+    mag: Mag

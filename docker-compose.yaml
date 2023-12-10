@@ -1,0 +1,8 @@
+version: "3.9"
+services:
+  tau:
+    build: .
+    ports:
+      - "8080:8080"
+    restart: always
+    privileged: true

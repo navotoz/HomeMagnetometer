@@ -1,12 +1,17 @@
+from collections import deque
 import qwiic_oled_display
 
 from time import sleep
 import threading as th
 
-from constants import DELAY_SECONDS, PORT
+from constants import DELAY_SECONDS, N_SAMPLES, Mag, Measurement
 from devices import Magnetometer, Temperature
-from Flask import Flask
-app = Flask(__name__)
+import numpy as np
+import pandas as pd
+
+import dash
+from dash import html, dcc
+import plotly.express as px
 
 
 def lcd_updater():
@@ -45,24 +50,57 @@ def lcd_updater():
         sleep(DELAY_SECONDS)
 
 
-@app.route('/temperature')
-def measurements():
-    return str(temperature())
+def th_measurements():
+    while True:
+        mag = magnetometer()
+        measurement = Measurement(
+            time=magnetometer.time,
+            temperature=temperature(),
+            mag=Mag(
+                x=mag.x,
+                y=mag.y,
+                z=mag.z,
+                magnitude=mag.magnitude
+            )
+        )
+        deque_measurements.append(measurement)
+        sleep(DELAY_SECONDS)
 
 
-@app.route('/magnetic')
-def measurements():
-    return '{:g} {:g} {:g}'.format(*magnetometer())
+app = dash.Dash()
+
+app.layout = html.Div([
+    dcc.Graph(id='temperature-plot'),
+    dcc.Interval(id='interval', interval=2000)
+])
 
 
-@app.route('/magnitude')
-def measurements():
-    return str(magnetometer.magnitude)
+@app.callback(
+    dash.dependencies.Output('temperature-plot', 'figure'),
+    dash.dependencies.Input('interval', 'n_intervals'))
+def update_graph(n_intervals):
+    x = np.array([p.time for p in deque_measurements])
+    y = np.array([p.temperature for p in deque_measurements])
+    df = pd.DataFrame({'Time': x, 'Celsius': y})
+    fig = px.line(df, x='Time', y='Celsius')
+    fig.update_layout(
+        title={
+            'text': "Temperature [C]",
+            'y': 1,
+            'x': 0.5,
+            'xanchor': 'center',
+            'yanchor': 'top'})
+    return fig
 
 
 if __name__ == '__main__':
     magnetometer = Magnetometer()
     temperature = Temperature()
+    deque_measurements = deque(maxlen=N_SAMPLES)
+
+    # init thread for measurements
+    th_meas = th.Thread(target=th_measurements, daemon=True, name='measurements')
+    th_meas.start()
 
     # init thread for LCD printing
     th_lcd = th.Thread(target=lcd_updater, daemon=True, name='lcd_updater')

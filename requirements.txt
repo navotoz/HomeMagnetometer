@@ -1,6 +1,10 @@
 numpy
 matplotlib
 tqdm
+flask
+dash
+plotly
+pandas
 
 # sparkfun oled
 sparkfun_qwiic_oled_display

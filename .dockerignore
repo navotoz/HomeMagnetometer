@@ -1,0 +1,17 @@
+/venv/
+/.venv/
+**/__pycache__/
+**/.vscode/
+*.pyc
+**/measurements/
+*.step
+*.STEP
+*.STL
+*.stl
+**/rawData/
+*.npz
+*.xml
+*.csv
+*.kml
+*.blend
+*.blend1
