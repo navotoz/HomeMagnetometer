@@ -110,4 +110,4 @@ if __name__ == '__main__':
     PORT = 8080
     IP = "0.0.0.0"
     print('Initiating server', flush=True)
-    app.run_server(debug=False, host=IP, port=PORT, threaded=True)
+    app.run(debug=False, host=IP, port=PORT)

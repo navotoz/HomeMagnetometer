@@ -1,6 +1,6 @@
 version: "3.9"
 services:
-  tau:
+  magnetometer:
     build: .
     ports:
       - "8080:8080"

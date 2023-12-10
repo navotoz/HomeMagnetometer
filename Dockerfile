@@ -3,15 +3,15 @@ FROM python:3.9-slim AS base
 # Install dependencies
 RUN apt-get update
 RUN apt-get install -y --no-install-recommends \ 
-    gcc \
-    build-essential \
-    make \
-    python3-dev \
+    # gcc \
+    # build-essential \
+    # make \
+    # python3-dev \
+    # git \
     # libc-dev \
     # libffi-dev \
     # libnotify4 \
     # libatlas-base-dev \
-    git \
     # ffmpeg \
     # libsm6 \
     # libxext6 \
