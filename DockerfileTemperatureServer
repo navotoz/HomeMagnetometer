@@ -1,0 +1,22 @@
+FROM python:3.9-slim AS base
+
+# Install dependencies
+RUN python3 -m venv venv
+
+# install the requirements into a build, to avoid reinstallation
+FROM base as build-venv
+RUN /venv/bin/pip3 install adafruit-circuitpython-shtc3  --no-cache-dir   --index-url https://www.piwheels.org/simple
+RUN /venv/bin/pip3 install flask  --no-cache-dir   --index-url https://www.piwheels.org/simple  
+
+# Copy files into the build image
+FROM build-venv as build
+COPY . /app
+WORKDIR /app
+
+# Expose the default outbound port
+EXPOSE 5000
+
+HEALTHCHECK CMD curl --fail http://localhost:8080/_stcore/health
+
+# Set the entrypoint to start the Flask app
+ENTRYPOINT ["/venv/bin/python3", "server.py"]

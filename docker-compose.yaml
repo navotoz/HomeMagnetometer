@@ -1,9 +1,17 @@
 version: "3.9"
 services:
-  magnetometer:
-    build: .
+  client:
+    build:
+      dockerfile: DockerfileStreamlit
     ports:
       - "8080:8080"
+    restart: always
+    privileged: false
+  server:
+    build: 
+      dockerfile: DockerfileTemperatureServer
+    ports:
+      - "5000:5000"
     restart: always
     privileged: true
     devices:

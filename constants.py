@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 
-DELAY_SECONDS = 0.5
+DELAY_SECONDS = 10
 HOURS_OF_LOG = 48
 
 SECONDS_IN_MINUTE = 60

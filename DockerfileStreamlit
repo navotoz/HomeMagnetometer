@@ -19,11 +19,8 @@ RUN python3 -m venv venv
 
 # install the requirements into a build, to avoid reinstallation
 FROM base as build-venv
-RUN /venv/bin/pip3 install adafruit-circuitpython-shtc3  --no-cache-dir   --index-url https://www.piwheels.org/simple
-RUN /venv/bin/pip3 install plotly  --no-cache-dir  --index-url https://www.piwheels.org/simple
-RUN /venv/bin/pip3 install streamlit  --no-cache-dir  --index-url https://www.piwheels.org/simple
-COPY requirements.txt /requirements.txt 
-RUN /venv/bin/pip3 install -r requirements.txt  --no-cache-dir  --index-url https://www.piwheels.org/simple
+RUN /venv/bin/pip3 install plotly  --no-cache-dir 
+RUN /venv/bin/pip3 install streamlit  --no-cache-dir
 
 # Copy files into the build image
 FROM build-venv as build
@@ -36,5 +33,4 @@ EXPOSE 8080
 HEALTHCHECK CMD curl --fail http://localhost:8080/_stcore/health
 
 # Set the entrypoint to start the Flask app
-RUN ln -s /usr/lib/arm-linux-gnueabihf/libtiff.so /usr/lib/arm-linux-gnueabihf/libtiff.so.5
-ENTRYPOINT ["/venv/bin/python3", "-m", "streamlit", "run", "app.py", "--server.port=8080", "--server.address=0.0.0.0"]
+ENTRYPOINT ["/venv/bin/python3", "-m", "streamlit", "run", "client.py", "--server.port=8080", "--server.address=0.0.0.0"]
