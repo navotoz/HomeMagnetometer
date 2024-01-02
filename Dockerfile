@@ -10,6 +10,7 @@ RUN apt-get install -y --no-install-recommends \
     git \
     libatlas-base-dev \
     libopenblas-dev \
+    libtiff5 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 RUN python3 -m venv venv
@@ -33,4 +34,5 @@ EXPOSE 8080
 HEALTHCHECK CMD curl --fail http://localhost:8080/_stcore/health
 
 # Set the entrypoint to start the Flask app
+RUN ln -s /usr/lib/arm-linux-gnueabihf/libtiff.so /usr/lib/arm-linux-gnueabihf/libtiff.so.5
 ENTRYPOINT ["/venv/bin/python3", "-m", "streamlit", "run", "app.py", "--server.port=8080", "--server.address=0.0.0.0"]
