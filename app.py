@@ -1,7 +1,8 @@
 from collections import deque
 
-from time import sleep, time_ns
+from time import sleep
 import threading as th
+from datetime import datetime
 
 from constants import DELAY_SECONDS, N_SAMPLES,  Measurement
 from devices import Temperature
@@ -12,7 +13,7 @@ import streamlit as st
 def th_measurements():
     while True:
         measurement = Measurement(
-            time=time_ns(),
+            time=datetime.now(),
             temperature=temperature(),
         )
         deque_measurements.append(measurement)
