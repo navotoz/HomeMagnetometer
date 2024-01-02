@@ -38,5 +38,3 @@ HEALTHCHECK CMD curl --fail http://localhost:8080/_stcore/health
 # Set the entrypoint to start the Flask app
 RUN ln -s /usr/lib/arm-linux-gnueabihf/libtiff.so /usr/lib/arm-linux-gnueabihf/libtiff.so.5
 ENTRYPOINT ["/venv/bin/python3", "-m", "streamlit", "run", "app.py", "--server.port=8080", "--server.address=0.0.0.0"]
-
-/venv/bin/python3 -m streamlit run app.py --server.port=8080 --server.address=0.0.0.0
