@@ -10,7 +10,7 @@ RUN apt-get install -y --no-install-recommends \
     git \
     libatlas-base-dev \
     libopenblas-dev \
-    libtiff5 \
+    libtiff-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 RUN python3 -m venv venv
