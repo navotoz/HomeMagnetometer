@@ -1,15 +1,4 @@
-numpy
-matplotlib
-tqdm
-flask
-dash
+streamlit
 plotly
-pandas
-gunicorn
 
-# sparkfun oled
-sparkfun_qwiic_oled_display
-
-# adafruit blinka
-adafruit-circuitpython-shtc3
-adafruit-circuitpython-lis3mdl
+adafruit-circuitpython-shtc3 # Temperature sensor

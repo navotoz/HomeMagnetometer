@@ -1,5 +1,6 @@
-/venv/
-/.venv/
+**/venv/
+**/.venv/
+**/Case/
 **/__pycache__/
 **/.vscode/
 *.pyc
@@ -15,3 +16,4 @@
 *.kml
 *.blend
 *.blend1
+*.pub
