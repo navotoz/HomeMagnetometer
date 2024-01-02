@@ -16,11 +16,11 @@ RUN python3 -m venv venv
 
 # install the requirements into a build, to avoid reinstallation
 FROM base as build-venv
-RUN /venv/bin/pip3 install adafruit-circuitpython-shtc3  --no-cache-dir 
-RUN /venv/bin/pip3 install plotly  --no-cache-dir
-RUN /venv/bin/pip3 install streamlit  --no-cache-dir
-COPY requirements.txt /requirements.txt
-RUN /venv/bin/pip3 install -r requirements.txt  --no-cache-dir
+RUN /venv/bin/pip3 install adafruit-circuitpython-shtc3  --no-cache-dir   --index-url https://www.piwheels.org/simple
+RUN /venv/bin/pip3 install plotly  --no-cache-dir  --index-url https://www.piwheels.org/simple
+RUN /venv/bin/pip3 install streamlit  --no-cache-dir  --index-url https://www.piwheels.org/simple
+COPY requirements.txt /requirements.txt 
+RUN /venv/bin/pip3 install -r requirements.txt  --no-cache-dir  --index-url https://www.piwheels.org/simple
 
 # Copy files into the build image
 FROM build-venv as build
