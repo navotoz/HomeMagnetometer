@@ -24,8 +24,7 @@ app = Flask(__name__)
 
 @app.route("/", methods=["POST"])
 def send_data():
-    # return [[p.time for p in deque_measurements], [p.temperature for p in deque_measurements]]
-    return [[datetime.now().isoformat()] * N_SAMPLES,  [12.24]* N_SAMPLES]
+    return [[p.time for p in deque_measurements], [p.temperature for p in deque_measurements]]
 
 
 # Run the app
